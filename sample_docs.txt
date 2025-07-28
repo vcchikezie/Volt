@@ -1,3 +1,0 @@
-The CFAA prohibits unauthorized access to protected computers and includes penalties for violations.
-The GDPR regulates processing of personal data, requiring companies to ensure compliance.
-In Smith v. AI Corp, the court ruled that AI developers can be held liable for damages caused by their algorithms.
