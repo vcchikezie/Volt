@@ -1,16 +1,23 @@
-# ⚖️ Legal AI MVP
+# Volt.ai
 
-This is a minimal **SaaS prototype** that integrates:
-- **Legal-BERT** (from Hugging Face) for embeddings & QA
-- **FAISS** for semantic legal document search
-- **FastAPI** backend
-- **Streamlit** frontend
+*Volt.ai* is an AI-powered assistant providing instant answers on privacy, cybersecurity, and AI law.  
+It uses Legal-BERT and vector search to deliver fast, accurate legal insights with references to official regulations.
 
----
+## Features
+- Search legal texts (GDPR, NIS2, EU AI Act)
+- AI-powered Q&A using Legal-BERT
+- Simple web UI with Streamlit
 
-## 🚀 How to Run
+## Setup Instructions
 
-### 1️⃣ Clone the repository
+### Prerequisites
+- Python 3.8+
+- Git
+
+### Installation
 ```bash
-git clone https://github.com/YOUR-USERNAME/legal-ai-mvp.git
-cd legal-ai-mvp
+git clone https://github.com/yourusername/volt-ai.git
+cd volt-ai
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
