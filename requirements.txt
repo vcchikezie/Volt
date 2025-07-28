@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+streamlit
+transformers
+torch
+faiss-cpu
+requests
