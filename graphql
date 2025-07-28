@@ -1,6 +1,0 @@
-volt_ai_mvp/
- ├── backend.py           # FastAPI backend with Legal-BERT + FAISS
- ├── ui.py                # Streamlit frontend
- ├── requirements.txt     # Dependencies for easy install
- ├── sample_docs.txt      # Small sample dataset (tech law cases)
- └── README.md            # Beginner-friendly guide
