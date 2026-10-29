@@ -8,16 +8,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Layout: a virtual library. Each section is a bookcase; each resource is a spine coloured by topic, with a call-number label.
-   Pulling a spine opens its catalogue card. A List view keeps the dense catalogue rows for scanning. */
+/* Layout: a virtual library. Each section shows its resources as thumbnail tiles: a generated cover in the topic colour
+   with a monogram and call number, then title, publisher and topics. A tile opens its catalogue card.
+   A List view keeps the dense catalogue rows for scanning. */
 :root {
   --bg: #f4f4f5;
   --surface: #ffffff;
   --ink: #0a0a0a;
   --muted: #5b5b64;
   --line: #e1e1e6;
-  --plank: #0a0a0a;
-  --shelf-back: #ebebee;
   --red: #e11d2e;
   --blue: #2563eb;
   --link: #2563eb;
@@ -29,8 +28,6 @@
   --t-l-ink: #ffffff;
   --t-g: #d4d4d8;
   --t-g-ink: #0a0a0a;
-  --label: #fafafa;
-  --label-ink: #0a0a0a;
   --warn: #9a5b00;
   --warn-soft: #fcf0d9;
   --shadow: 0 1px 0 rgba(10, 10, 10, 0.06), 0 8px 24px -12px rgba(10, 10, 10, 0.25);
@@ -41,7 +38,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0a0a0a; --surface: #141416; --ink: #fafafa; --muted: #a1a1aa; --line: #27272c;
-    --plank: #3f3f46; --shelf-back: #111113; --link: #7ea3f7; --accent-soft: #15213f;
+    --link: #7ea3f7; --accent-soft: #15213f;
     --t-a: #5b5b63; --t-l: #f4f4f5; --t-l-ink: #0a0a0a; --t-g: #a1a1aa; --t-g-ink: #0a0a0a;
     --warn: #f2c063; --warn-soft: #2e2410;
     --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px -12px rgba(0, 0, 0, 0.8);
@@ -50,7 +47,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0a0a0a; --surface: #141416; --ink: #fafafa; --muted: #a1a1aa; --line: #27272c;
-  --plank: #3f3f46; --shelf-back: #111113; --link: #7ea3f7; --accent-soft: #15213f;
+  --link: #7ea3f7; --accent-soft: #15213f;
   --t-a: #5b5b63; --t-l: #f4f4f5; --t-l-ink: #0a0a0a; --t-g: #a1a1aa; --t-g-ink: #0a0a0a;
   --warn: #f2c063; --warn-soft: #2e2410;
   --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px -12px rgba(0, 0, 0, 0.8);
@@ -156,7 +153,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .summary { margin: 0; font-size: 14px; color: var(--muted); }
 .summary strong { color: var(--ink); }
 
-/* Bookcase */
+/* Section */
 .case { display: grid; gap: 12px; min-width: 0; }
 .case-head { display: grid; gap: 6px; }
 .case-head .callno { display: flex; align-items: center; gap: 10px; font: 600 12px/1 var(--mono); letter-spacing: 0.14em; color: var(--muted); }
@@ -166,47 +163,35 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .case-head h2 button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .case-head p { margin: 0; color: var(--muted); max-width: 66ch; font-size: 14px; }
 
-.shelf {
-  --row: 232px;
-  list-style: none; margin: 0; padding: 0 12px;
-  display: flex; flex-wrap: wrap; align-items: flex-end;
-  background:
-    repeating-linear-gradient(to bottom, transparent 0 calc(var(--row) - 10px), var(--plank) calc(var(--row) - 10px) var(--row)),
-    var(--shelf-back);
-  border-radius: 4px 4px 2px 2px;
-  border-inline: 10px solid var(--plank);
-  border-top: 10px solid var(--plank);
-}
-.shelf li { height: var(--row); display: flex; align-items: flex-end; padding-bottom: 10px; }
-
-.spine {
-  --h: 190px; --w: 42px; --c: var(--t-g); --fg: #ffffff;
-  position: relative; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; justify-items: center; gap: 8px;
-  height: var(--h); width: var(--w); margin-inline: 1px; padding: 10px 0 8px;
-  background: var(--c); color: var(--fg); border: 0; border-radius: 3px 3px 1px 1px; cursor: pointer;
-  box-shadow: inset 3px 0 0 rgba(255, 255, 255, 0.12), inset -3px 0 0 rgba(0, 0, 0, 0.18);
+.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); gap: 26px 18px; }
+.tile-btn { all: unset; box-sizing: border-box; display: grid; gap: 8px; align-content: start; width: 100%; cursor: pointer; }
+.tile-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 6px; }
+.thumb {
+  --c: var(--t-g); --fg: #ffffff;
+  position: relative; aspect-ratio: 4 / 3; max-width: 100%; overflow: hidden;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 4px; padding: 10px 12px 10px;
+  background: linear-gradient(135deg, transparent 62%, rgba(255, 255, 255, 0.08) 62%), var(--c);
+  color: var(--fg); border-radius: 6px;
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
-.spine.c { --c: var(--t-c); } .spine.a { --c: var(--t-a); } .spine.p { --c: var(--t-p); }
-.spine.g { --c: var(--t-g); --fg: var(--t-g-ink); }
-.spine.l, .spine.g { box-shadow: inset 0 0 0 1px var(--line), inset 3px 0 0 rgba(255, 255, 255, 0.12), inset -3px 0 0 rgba(0, 0, 0, 0.18); }
-.spine.l { --c: var(--t-l); --fg: var(--t-l-ink); box-shadow: inset 0 0 0 1px var(--line), inset 3px 0 0 rgba(255, 255, 255, 0.12), inset -3px 0 0 rgba(0, 0, 0, 0.18); }
-.spine:hover, .spine:focus-visible { transform: translateY(-10px); }
-.spine:focus-visible { outline-offset: 3px; }
-.spine .bands { display: grid; gap: 3px; width: 100%; }
-.spine .bands i { display: block; height: 4px; }
-.spine .bands i.c { background: var(--t-c); } .spine .bands i.a { background: var(--t-a); } .spine .bands i.p { background: var(--t-p); }
-.spine .bands i.l { background: var(--t-l); box-shadow: 0 0 0 1px var(--line); } .spine .bands i.g { background: var(--t-g); box-shadow: 0 0 0 1px var(--line); }
-.spine .title {
-  writing-mode: vertical-rl; transform: rotate(180deg);
-  font-weight: 700; font-size: 12.5px; line-height: 1.15; letter-spacing: 0.01em;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-height: 100%; min-height: 0;
-}
-.spine .tag-label {
-  width: calc(100% - 8px); background: var(--label); color: var(--label-ink);
-  font: 600 8.5px/1.15 var(--mono); letter-spacing: 0.02em; text-align: center; padding: 3px 0; border-radius: 1px;
-}
-.spine.past { opacity: 0.45; }
+.thumb.c { --c: var(--t-c); } .thumb.p { --c: var(--t-p); } .thumb.a { --c: var(--t-a); }
+.thumb.l { --c: var(--t-l); --fg: var(--t-l-ink); }
+.thumb.g { --c: var(--t-g); --fg: var(--t-g-ink); }
+.thumb.l, .thumb.g { box-shadow: inset 0 0 0 1px var(--line); }
+.tile-btn:hover .thumb, .tile-btn:focus-visible .thumb { transform: translateY(-3px); box-shadow: var(--shadow); }
+.thumb-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: 600 10.5px/1 var(--mono); letter-spacing: 0.08em; opacity: 0.9; }
+.thumb-top .stripe { width: 28px; height: 2px; }
+.thumb-mark { align-self: center; font: 600 var(--ms, 40px)/1 var(--display); letter-spacing: -0.01em; overflow-wrap: anywhere; min-height: 0; overflow: hidden; }
+.thumb-mark.letter { font-style: italic; font-weight: 500; }
+.thumb-kind { font: 600 10px/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 10px; }
+.thumb .bands { position: absolute; top: 0; right: 0; bottom: 0; width: 7px; display: grid; }
+.thumb .bands i.c { background: var(--t-c); } .thumb .bands i.p { background: var(--t-p); } .thumb .bands i.a { background: var(--t-a); }
+.thumb .bands i.l { background: var(--t-l); } .thumb .bands i.g { background: var(--t-g); }
+.tile-title { font-weight: 600; font-size: 15px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.tile-btn:hover .tile-title { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+.tile-sub { font-size: 13px; color: var(--muted); line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tile-tags { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.tile.past .thumb { opacity: 0.45; }
 
 /* List view */
 .list { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
@@ -309,15 +294,15 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   .rail-label { display: none; }
 }
 @media (max-width: 560px) {
-  .shelf { --row: 196px; padding-inline: 6px; border-inline-width: 6px; }
-  .spine { height: var(--hm, 150px); }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 22px 14px; }
+  .thumb-mark { font-size: calc(var(--ms, 40px) * 0.85); }
   .row { grid-template-columns: minmax(0, 1fr); }
   .row .callno { line-height: 1; }
   .row-tags { justify-content: flex-start; }
   .two { grid-template-columns: 1fr; }
   .card dl { grid-template-columns: 96px minmax(0, 1fr); }
 }
-@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } .spine:hover, .spine:focus-visible { transform: none; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } .tile-btn:hover .thumb, .tile-btn:focus-visible .thumb { transform: none; } }
 </style>
 </head>
 <body>
@@ -330,7 +315,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
     <div class="hero">
       <h1>The library for law and <em>technology.</em></h1>
       <span class="stripe" aria-hidden="true"></span>
-      <p>Laws, regulators, frameworks, certifications, courses, events, research and more on cybersecurity, privacy, AI and tech law. Browse the shelves and pull any book to read its catalogue card.</p>
+      <p>Laws, regulators, frameworks, certifications, courses, events, research and more on cybersecurity, privacy, AI and tech law. Browse by section and open any resource to read its catalogue card.</p>
       <div class="meta" id="meta"></div>
     </div>
     <div class="searchbar">
@@ -341,7 +326,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
       <div class="controls">
         <div class="topics" role="group" aria-label="Filter by topic" id="topics"></div>
         <div class="views" role="group" aria-label="View">
-          <button type="button" id="view-shelves" data-view="shelves" aria-pressed="true">Shelves</button>
+          <button type="button" id="view-covers" data-view="covers" aria-pressed="true">Thumbnails</button>
           <button type="button" id="view-list" data-view="list" aria-pressed="false">List</button>
         </div>
       </div>
@@ -370,7 +355,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
     <div class="dlg-head">
       <div>
         <h2 id="sg-title">Suggest a resource</h2>
-        <p>Every suggestion is reviewed before it goes on the shelves.</p>
+        <p>Every suggestion is reviewed before it is added.</p>
       </div>
       <button class="x" type="button" data-close aria-label="Close">×</button>
     </div>
@@ -424,7 +409,7 @@ let UPDATED = "", TOPICS = {}, CATS = [], ITEMS = [], CAT_BY = {};
 const TODAY = new Date().toISOString().slice(0, 10);
 const isPast = it => !!(it.ev && it.ev.end && it.ev.end < TODAY);
 
-const state = { q: "", topic: "all", cat: "all", view: "shelves", showPast: false, curator: false, queue: [] };
+const state = { q: "", topic: "all", cat: "all", view: "covers", showPast: false, curator: false, queue: [] };
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
 const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
@@ -439,8 +424,6 @@ function matches(it) {
 }
 function visible(it) { return matches(it) && (state.showPast || !isPast(it)); }
 
-// Spine look: a short title, and a height and width that stay the same for each book.
-function hash(s) { let h = 2166136261; for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return h >>> 0; }
 function shortTitle(n) {
   // Drop a trailing citation in brackets, e.g. "(Regulation (EU) 2016/679)", but keep acronyms such as "(DORA)".
   if (!n.endsWith(")")) return n;
@@ -477,7 +460,7 @@ function renderTopics() {
 
 function renderRail() {
   const all = ITEMS.filter(visible).length;
-  const rows = [`<li><a href="#" data-cat="all" aria-current="${state.cat === "all"}"><span class="code">ALL</span><span>All shelves</span><span class="n">${all}</span></a></li>`];
+  const rows = [`<li><a href="#" data-cat="all" aria-current="${state.cat === "all"}"><span class="code">ALL</span><span>All sections</span><span class="n">${all}</span></a></li>`];
   for (const c of CATS) {
     const n = ITEMS.filter(i => i.c === c.k && visible(i)).length;
     rows.push(`<li><a href="#${c.k}" data-cat="${c.k}" aria-current="${state.cat === c.k}"><span class="code">${c.code}</span><span>${esc(c.name)}</span><span class="n">${n}</span></a></li>`);
@@ -485,17 +468,38 @@ function renderRail() {
   $("rail").innerHTML = rows.join("");
 }
 
-function spineHtml(it) {
-  const h = hash(it.n);
-  const w = Math.max(36, Math.min(50, 32 + Math.round(shortTitle(it.n).length * 0.28)));
-  const height = 168 + (h % 44);
+// The large mark on a thumbnail: an acronym where the title has one, otherwise the title's first letter.
+// Works on the title without its legal citation, and skips a leading EU/UK/US so "UK GDPR ..." shows GDPR.
+function monogram(it) {
+  const core = shortTitle(it.n).replace(/^(EU|UK|US)\s+/, "");
+  const paren = core.match(/\(([A-Z][A-Za-z0-9&+\/.-]{1,9})[\s)]/);
+  if (paren && paren[1].length >= 3 && (paren[1].match(/[A-Z]/g) || []).length >= 2) return { text: paren[1] };
+  const lead = core.match(/^[A-Za-z0-9&+\/.-]+/)?.[0] || "";
+  if ((lead.match(/[A-Z0-9]/g) || []).length >= 2 && lead.length <= 9 && /^[A-Z]/.test(lead)) return { text: lead };
+  // Initials only for legal texts and bodies, where they match how people refer to them (GDPR, CRA).
+  const caps = core.split(/[(,]/)[0].split(/\s+/).filter(w => /^[A-Z][a-z]/.test(w));
+  if (["laws", "regulators", "frameworks"].includes(it.c) && caps.length >= 3 && caps.length <= 5) return { text: caps.map(w => w[0]).join("") };
+  return { text: it.n.replace(/^(The|A|An)\s+/i, "").charAt(0).toUpperCase(), letter: true };
+}
+
+function tileHtml(it) {
   const [first, ...rest] = it.t;
-  const [code, num] = it.call.split("-");
-  const label = `${it.n}. ${it.k}${it.ev?.when ? ", " + it.ev.when : ""}. Call number ${it.call}.`;
-  return `<li><button type="button" class="spine ${first}${isPast(it) ? " past" : ""}" style="--h:${height}px;--hm:${height - 34}px;--w:${w}px" data-item="${it.id}" aria-label="${esc(label)}" title="${esc(it.n)}">
-    <span class="bands" aria-hidden="true">${rest.map(t => `<i class="${t}"></i>`).join("")}</span>
-    <span class="title" aria-hidden="true">${esc(shortTitle(it.n))}</span>
-    <span class="tag-label" aria-hidden="true">${esc(code)}<br>${esc(num || "")}</span>
+  const m = monogram(it);
+  const size = m.letter ? 64 : m.text.length <= 4 ? 44 : m.text.length <= 6 ? 34 : 26;
+  const sub = [];
+  if (it.ev) sub.push(...[it.ev.when, it.ev.loc].filter(Boolean));
+  else { if (it.jur && it.jur !== "Global") sub.push(it.jur); if (it.pub && it.pub !== it.n) sub.push(it.pub); }
+  const tags = [...pills(it), ...it.t.map(t => `<span class="tag"><span class="dot ${t}"></span>${TOPICS[t]}</span>`)];
+  return `<li class="tile${isPast(it) ? " past" : ""}"><button type="button" class="tile-btn" data-item="${it.id}">
+    <span class="thumb ${first}" style="--ms:${size}px" aria-hidden="true">
+      <span class="thumb-top"><span>${esc(it.call)}</span><span class="stripe"></span></span>
+      <span class="thumb-mark${m.letter ? " letter" : ""}">${esc(m.text)}</span>
+      <span class="thumb-kind">${esc(it.k)}</span>
+      ${rest.length ? `<span class="bands">${rest.map(t => `<i class="${t}"></i>`).join("")}</span>` : ""}
+    </span>
+    <span class="tile-title">${esc(it.n)}</span>
+    ${sub.length ? `<span class="tile-sub">${esc(sub.join(" · "))}</span>` : ""}
+    <span class="tile-tags">${tags.join("")}</span>
   </button></li>`;
 }
 
@@ -534,7 +538,7 @@ function renderResults() {
   if (filtering) {
     const n = ITEMS.filter(i => cats.includes(CAT_BY[i.c]) && visible(i)).length;
     const what = [state.q ? `“${esc(state.q)}”` : "", state.topic !== "all" ? esc(TOPICS[state.topic]) : ""].filter(Boolean).join(" in ");
-    if (n) parts.push(`<p class="summary"><strong>${n}</strong> ${n === 1 ? "book matches" : "books match"} ${what}. <button class="btn ghost" type="button" data-clear>Clear</button></p>`);
+    if (n) parts.push(`<p class="summary"><strong>${n}</strong> ${n === 1 ? "resource matches" : "resources match"} ${what}. <button class="btn ghost" type="button" data-clear>Clear</button></p>`);
   }
   for (const c of cats) {
     const inCat = ITEMS.filter(i => i.c === c.k && matches(i));
@@ -551,15 +555,15 @@ function renderResults() {
     const title = state.cat === "all" ? `<button type="button" data-cat="${c.k}">${esc(c.name)}</button>` : esc(c.name);
     const books = !shown.length ? "" : state.view === "list"
       ? `<ul class="list">${shown.map(rowHtml).join("")}</ul>`
-      : `<ul class="shelf" aria-label="${esc(c.name)} shelf">${shown.map(spineHtml).join("")}</ul>`;
+      : `<ul class="grid">${shown.map(tileHtml).join("")}</ul>`;
     parts.push(`<section class="case" id="sec-${c.k}">
-      <div class="case-head"><div class="callno"><span class="stripe" aria-hidden="true"></span>${c.code} · ${shown.length} ${shown.length === 1 ? "book" : "books"}</div><h2>${title}</h2><p>${esc(c.d)}</p></div>
+      <div class="case-head"><div class="callno"><span class="stripe" aria-hidden="true"></span>${c.code} · ${shown.length} ${shown.length === 1 ? "resource" : "resources"}</div><h2>${title}</h2><p>${esc(c.d)}</p></div>
       ${pastNote}${books}
     </section>`);
   }
   if (!parts.length) {
     const scope = state.cat === "all" ? "the library" : CAT_BY[state.cat].name;
-    parts.push(`<div class="empty"><h2>No books match${state.q ? ` “${esc(state.q)}”` : ""}</h2><p>Nothing in ${esc(scope)} fits this search and topic. Try a broader word, or suggest the resource you were looking for.</p><div class="btn-row"><button class="btn" type="button" data-clear>Clear filters</button><button class="btn primary" type="button" data-suggest>Suggest a resource</button></div></div>`);
+    parts.push(`<div class="empty"><h2>Nothing matches${state.q ? ` “${esc(state.q)}”` : ""}</h2><p>Nothing in ${esc(scope)} fits this search and topic. Try a broader word, or suggest the resource you were looking for.</p><div class="btn-row"><button class="btn" type="button" data-clear>Clear filters</button><button class="btn primary" type="button" data-suggest>Suggest a resource</button></div></div>`);
   }
   $("results").innerHTML = parts.join("");
 }
@@ -606,7 +610,7 @@ function openCard(id) {
       <dl>${rows.join("")}</dl>
     </div>
     <div class="card-foot">
-      <button class="btn" type="button" data-close>Back to the shelf</button>
+      <button class="btn" type="button" data-close>Close</button>
       ${it.u ? `<a class="btn primary" href="${esc(it.u)}" target="_blank" rel="noopener noreferrer">Open resource <span aria-hidden="true">↗</span></a>` : ""}
     </div>
   </article>`;
