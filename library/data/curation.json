@@ -1,0 +1,815 @@
+{
+  "topics": {
+    "c": "Cybersecurity",
+    "p": "Privacy",
+    "a": "AI",
+    "g": "General"
+  },
+  "tagTopics": {
+    "Artificial Intelligence": "a",
+    "Cybersecurity": "c",
+    "Privacy": "p"
+  },
+  "sections": [
+    {
+      "key": "learning",
+      "code": "LRN",
+      "name": "Learning Center",
+      "description": "Courses, labs and training platforms. Courses teach a subject; they are not certifications.",
+      "notion": [
+        "Learning Center"
+      ]
+    },
+    {
+      "key": "jobs",
+      "code": "JOB",
+      "name": "Job Boards",
+      "description": "Where to find security, privacy and tech roles.",
+      "notion": [
+        "Job Boards"
+      ]
+    },
+    {
+      "key": "events",
+      "code": "EVT",
+      "name": "Events",
+      "description": "Conferences, summits, workshops and training events.",
+      "notion": [
+        "Events"
+      ]
+    },
+    {
+      "key": "podcasts",
+      "code": "POD",
+      "name": "Podcasts",
+      "description": "Shows on privacy, security and tech law.",
+      "notion": [
+        "Podcasts"
+      ]
+    },
+    {
+      "key": "research",
+      "code": "RES",
+      "name": "Research",
+      "description": "Databases, data portals and document libraries.",
+      "notion": [
+        "Research"
+      ]
+    },
+    {
+      "key": "books",
+      "code": "BKS",
+      "name": "Books & Literature",
+      "description": "Reading lists and places to track what you read.",
+      "notion": [
+        "Books & Literature"
+      ]
+    },
+    {
+      "key": "tools",
+      "code": "TLS",
+      "name": "Tools",
+      "description": "Everyday software for studying, presenting and organizing work.",
+      "notion": [
+        "Tools"
+      ]
+    }
+  ],
+  "exclude": [
+    "Certifications"
+  ],
+  "resources": {
+    "BSidesNYC Conference": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "c"
+      ],
+      "url": "https://bsidesnyc.org/",
+      "event": {
+        "when": "Oct 19, 2024",
+        "end": "2024-10-19",
+        "location": "New York City"
+      }
+    },
+    "Hack The Railroad 2024": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "c"
+      ],
+      "event": {
+        "when": "Oct 23–24, 2024",
+        "end": "2024-10-24",
+        "location": "Columbia, MD",
+        "cost": "Varies"
+      }
+    },
+    "Innovative Cybersecurity Summit – Scottsdale 2024": {
+      "section": "events",
+      "kind": "Summit",
+      "topics": [
+        "c"
+      ],
+      "event": {
+        "when": "Oct 6–8, 2024",
+        "end": "2024-10-08",
+        "location": "Scottsdale, AZ",
+        "cost": "Invite only"
+      }
+    },
+    "The Data Security and Privacy Summit": {
+      "section": "events",
+      "kind": "Summit",
+      "topics": [
+        "p",
+        "c"
+      ],
+      "event": {
+        "location": "New York",
+        "cost": "$499"
+      }
+    },
+    "Data Privacy Conference": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "p"
+      ],
+      "event": {
+        "when": "Sep 17, 2024",
+        "end": "2024-09-17",
+        "location": "Washington, DC"
+      }
+    },
+    "Compliance Week": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.complianceweek.com/",
+      "event": {
+        "when": "Feb 2025",
+        "end": "2025-02-28"
+      }
+    },
+    "CAMLIS Conference": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "a",
+        "c"
+      ],
+      "url": "https://www.camlis.org/",
+      "event": {
+        "when": "Oct 24–25, 2024",
+        "end": "2024-10-25",
+        "location": "Arlington, VA",
+        "cost": "$300"
+      }
+    },
+    "Cyber Security Training at SANS Network Security": {
+      "section": "events",
+      "kind": "Training event",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.sans.org/",
+      "event": {
+        "when": "Sep 4–9, 2024",
+        "end": "2024-09-09",
+        "location": "Las Vegas & virtual",
+        "cost": "From $7,785"
+      }
+    },
+    "DEF CON 32": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "c"
+      ],
+      "url": "https://defcon.org/",
+      "event": {
+        "when": "Aug 8–11, 2024",
+        "end": "2024-08-11",
+        "location": "Las Vegas"
+      }
+    },
+    "Splunk .conf24": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "c"
+      ],
+      "url": "https://conf.splunk.com/",
+      "event": {
+        "when": "Jun 10–13, 2024",
+        "end": "2024-06-13",
+        "location": "Las Vegas"
+      }
+    },
+    "NICE Conference & Expo: Strengthening Ecosystems": {
+      "section": "events",
+      "kind": "Conference",
+      "topics": [
+        "c"
+      ],
+      "url": "https://niceconference.org/",
+      "event": {
+        "location": "Dallas, TX",
+        "cost": "Varies"
+      }
+    },
+    "Gartner Identity & Access Management Summit USA": {
+      "section": "events",
+      "kind": "Summit",
+      "topics": [
+        "c"
+      ],
+      "event": {
+        "when": "Dec 9–11, 2024",
+        "end": "2024-12-11",
+        "location": "Grapevine, TX"
+      }
+    },
+    "Cybersecurity Conferences 2024–2025": {
+      "section": "events",
+      "kind": "Conference list",
+      "topics": [
+        "c"
+      ],
+      "event": {
+        "when": "2024–2025",
+        "end": "2025-12-31"
+      }
+    },
+    "ACI Learning": {
+      "section": "learning",
+      "kind": "Training provider",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.acilearning.com/"
+    },
+    "Cybrary": {
+      "section": "learning",
+      "kind": "Training platform",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.cybrary.it/"
+    },
+    "CISA": {
+      "section": "learning",
+      "kind": "Government training",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.cisa.gov/"
+    },
+    "SANS Cyber Institute": {
+      "section": "learning",
+      "kind": "Training provider",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.sans.org/"
+    },
+    "edX": {
+      "section": "learning",
+      "kind": "Course platform",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.edx.org/"
+    },
+    "Pluralsight": {
+      "section": "learning",
+      "kind": "Course platform",
+      "topics": [
+        "g",
+        "c"
+      ],
+      "url": "https://www.pluralsight.com/"
+    },
+    "Udacity": {
+      "section": "learning",
+      "kind": "Course platform",
+      "topics": [
+        "g",
+        "a"
+      ],
+      "url": "https://www.udacity.com/"
+    },
+    "McAfee Institute": {
+      "section": "learning",
+      "kind": "Training provider",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.mcafeeinstitute.com/"
+    },
+    "CodePath": {
+      "section": "learning",
+      "kind": "Tech training nonprofit",
+      "topics": [
+        "g",
+        "c"
+      ],
+      "url": "https://www.codepath.org/"
+    },
+    "StationX": {
+      "section": "learning",
+      "kind": "Training platform",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.stationx.net/"
+    },
+    "TryHackMe": {
+      "section": "learning",
+      "kind": "Hands-on labs",
+      "topics": [
+        "c"
+      ],
+      "url": "https://tryhackme.com/"
+    },
+    "Hack The Box": {
+      "section": "learning",
+      "kind": "Hands-on labs",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.hackthebox.com/"
+    },
+    "TED-Ed": {
+      "section": "learning",
+      "kind": "Video lessons",
+      "topics": [
+        "g"
+      ],
+      "url": "https://ed.ted.com/"
+    },
+    "TED": {
+      "section": "learning",
+      "kind": "Talks",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.ted.com/"
+    },
+    "Stanford Online": {
+      "section": "learning",
+      "kind": "University courses",
+      "topics": [
+        "g"
+      ],
+      "url": "https://online.stanford.edu/"
+    },
+    "Harvard Online": {
+      "section": "learning",
+      "kind": "University courses",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.harvardonline.harvard.edu/"
+    },
+    "Yale Online": {
+      "section": "learning",
+      "kind": "University courses",
+      "topics": [
+        "g"
+      ],
+      "url": "https://online.yale.edu/"
+    },
+    "OER Commons": {
+      "section": "learning",
+      "kind": "Open courseware",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.oercommons.org/"
+    },
+    "OpenStax": {
+      "section": "learning",
+      "kind": "Open textbooks",
+      "topics": [
+        "g"
+      ],
+      "url": "https://openstax.org/"
+    },
+    "Skillshare": {
+      "section": "learning",
+      "kind": "Course platform",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.skillshare.com/"
+    },
+    "Google Arts & Culture": {
+      "section": "learning",
+      "kind": "Cultural archive",
+      "topics": [
+        "g"
+      ],
+      "url": "https://artsandculture.google.com/"
+    },
+    "Reflection Toolkit": {
+      "section": "learning",
+      "kind": "Study guide",
+      "topics": [
+        "g"
+      ]
+    },
+    "NinjaJobs": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://ninjajobs.org/"
+    },
+    "ClearedJobs": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "http://clearedjobs.net/"
+    },
+    "CRUX": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.crux.so/job-board"
+    },
+    "Cyber SN": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://cybersn.com/"
+    },
+    "Braintrust": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.usebraintrust.com/job-boards/security"
+    },
+    "HTB Jobs": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "http://jobs.hackthebox.com/"
+    },
+    "ISEC Jobs": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://isecjobs.com/"
+    },
+    "WiCyS – Women in Cybersecurity": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.wicys.org/initiatives/job-board/"
+    },
+    "CyberSeek": {
+      "section": "jobs",
+      "kind": "Career data",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.cyberseek.org/"
+    },
+    "Cyber Security Jobs": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.cybersecurityjobs.com/"
+    },
+    "Cybersecurity Jobsite": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.cybersecurityjobsite.com/"
+    },
+    "CICS – Careers in Cybersecurity": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.careersincyber.com/"
+    },
+    "GCS Network": {
+      "section": "jobs",
+      "kind": "Career hub",
+      "topics": [
+        "c"
+      ],
+      "url": "https://globalcybersecuritynetwork.com/career-hub/job-platforms/"
+    },
+    "DICE": {
+      "section": "jobs",
+      "kind": "Job board",
+      "topics": [
+        "c"
+      ],
+      "url": "https://www.dice.com/"
+    },
+    "Mass Cyber Center": {
+      "section": "jobs",
+      "kind": "Career hub",
+      "topics": [
+        "c"
+      ],
+      "url": "https://masscybercenter.org/"
+    },
+    "Data Protection Breakfast Club": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "p"
+      ]
+    },
+    "Data Democratization Podcast": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "g"
+      ]
+    },
+    "Serious Privacy": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "p"
+      ]
+    },
+    "The Data Diva Talks Privacy": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "p"
+      ]
+    },
+    "The Privacy Advisor Podcast": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "p"
+      ]
+    },
+    "Data Privacy Unlocked": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "p"
+      ]
+    },
+    "Caveat": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "c"
+      ],
+      "url": "https://thecyberwire.com/podcasts/caveat"
+    },
+    "Privacy Please": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "p"
+      ]
+    },
+    "The Tech Law Hangout": {
+      "section": "podcasts",
+      "kind": "Podcast",
+      "topics": [
+        "g"
+      ]
+    },
+    "PubMed": {
+      "section": "research",
+      "kind": "Research database",
+      "topics": [
+        "g"
+      ],
+      "url": "https://pubmed.ncbi.nlm.nih.gov/"
+    },
+    "Google Scholar": {
+      "section": "research",
+      "kind": "Research search",
+      "topics": [
+        "g"
+      ],
+      "url": "https://scholar.google.com/"
+    },
+    "Google Public Data Explorer": {
+      "section": "research",
+      "kind": "Data portal",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.google.com/publicdata/directory"
+    },
+    "data.europa.eu (European Data Portal)": {
+      "section": "research",
+      "kind": "Data portal",
+      "topics": [
+        "g"
+      ],
+      "url": "https://data.europa.eu/"
+    },
+    "Eurostat": {
+      "section": "research",
+      "kind": "Statistics",
+      "topics": [
+        "g"
+      ],
+      "url": "https://ec.europa.eu/eurostat"
+    },
+    "United Nations Digital Library": {
+      "section": "research",
+      "kind": "Document library",
+      "topics": [
+        "g"
+      ],
+      "url": "https://digitallibrary.un.org/"
+    },
+    "National Renewable Energy Laboratory Research": {
+      "section": "research",
+      "kind": "Research",
+      "topics": [
+        "g"
+      ]
+    },
+    "Privacy Books": {
+      "section": "books",
+      "kind": "Reading list",
+      "topics": [
+        "p"
+      ]
+    },
+    "Cybersecurity Books": {
+      "section": "books",
+      "kind": "Reading list",
+      "topics": [
+        "c"
+      ]
+    },
+    "Goodreads": {
+      "section": "books",
+      "kind": "Book tracker",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.goodreads.com/"
+    },
+    "Notion": {
+      "section": "tools",
+      "kind": "Workspace",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.notion.so/"
+    },
+    "Google Drive": {
+      "section": "tools",
+      "kind": "File storage",
+      "topics": [
+        "g"
+      ],
+      "url": "https://drive.google.com/"
+    },
+    "Google Sheets": {
+      "section": "tools",
+      "kind": "Spreadsheets",
+      "topics": [
+        "g"
+      ],
+      "url": "https://sheets.google.com/"
+    },
+    "Google Calendar": {
+      "section": "tools",
+      "kind": "Calendar",
+      "topics": [
+        "g"
+      ],
+      "url": "https://calendar.google.com/"
+    },
+    "Google Keep": {
+      "section": "tools",
+      "kind": "Notes",
+      "topics": [
+        "g"
+      ],
+      "url": "https://keep.google.com/"
+    },
+    "Trello": {
+      "section": "tools",
+      "kind": "Task boards",
+      "topics": [
+        "g"
+      ],
+      "url": "https://trello.com/"
+    },
+    "Slack": {
+      "section": "tools",
+      "kind": "Team chat",
+      "topics": [
+        "g"
+      ],
+      "url": "https://slack.com/"
+    },
+    "Lucidchart": {
+      "section": "tools",
+      "kind": "Diagramming",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.lucidchart.com/"
+    },
+    "Figma": {
+      "section": "tools",
+      "kind": "Design",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.figma.com/"
+    },
+    "Slidesgo": {
+      "section": "tools",
+      "kind": "Slide templates",
+      "topics": [
+        "g"
+      ],
+      "url": "https://slidesgo.com/"
+    },
+    "Genially": {
+      "section": "tools",
+      "kind": "Interactive content",
+      "topics": [
+        "g"
+      ],
+      "url": "https://genially.com/"
+    },
+    "Piktochart": {
+      "section": "tools",
+      "kind": "Infographics",
+      "topics": [
+        "g"
+      ],
+      "url": "https://piktochart.com/"
+    },
+    "Veed.io": {
+      "section": "tools",
+      "kind": "Video editor",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.veed.io/"
+    },
+    "Quizlet": {
+      "section": "tools",
+      "kind": "Flashcards",
+      "topics": [
+        "g"
+      ],
+      "url": "https://quizlet.com/"
+    },
+    "MyBib": {
+      "section": "tools",
+      "kind": "Citation generator",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.mybib.com/"
+    },
+    "Forest": {
+      "section": "tools",
+      "kind": "Focus timer",
+      "topics": [
+        "g"
+      ],
+      "url": "https://www.forestapp.cc/"
+    }
+  }
+}
