@@ -29,4 +29,6 @@ A free, public, searchable directory of resources for people working where law m
 
 ## Design
 
-Cool off-white / deep navy palette with a cobalt accent, dark mode via `prefers-color-scheme`. Fonts: Newsreader (display), IBM Plex Sans (body), IBM Plex Mono (labels). Keep the dense catalogue-row layout; avoid card grids.
+Volt LegalTech Lab identity: black #0A0A0A, white, red #E11D2E and blue #2563EB, with the short red-and-blue stripe as a recurring rule. Satoshi (loaded from Fontshare) for everything, IBM Plex Mono for call numbers and labels. Light and dark themes via `prefers-color-scheme`.
+
+The interface is a virtual library: each section is a bookcase, each resource a spine coloured by its first topic (Cybersecurity red, Privacy blue, AI violet, Tech Law ink, General grey) with bands for further topics and a call-number label (the catalogue ID). Clicking a spine opens its catalogue card. The Shelves/List toggle keeps a dense list view for scanning; the choice is remembered per browser.
