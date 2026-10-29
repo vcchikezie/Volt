@@ -2,7 +2,7 @@
 
 This folder is the Volt Library website. All commands below run from inside `library/`.
 
-A searchable directory of resources on cybersecurity, data privacy and AI.
+A searchable directory of resources on cybersecurity, data privacy, AI and tech law: laws, regulators, frameworks, certifications, courses, events, research, news, podcasts, books, tools, communities and jobs.
 
 ## Run it locally
 
@@ -22,42 +22,32 @@ Then open http://localhost:8000.
 
 | File | What it is | Edit by hand? |
 |---|---|---|
+| `data/catalogue.xlsx` | The catalogue. Source of truth for everything the site shows | Yes |
+| `data/resources.json` | What the site reads. Generated from the spreadsheet | No, it gets overwritten |
+| `scripts/import_catalogue.py` | Turns the spreadsheet into `resources.json` | |
 | `index.html` | The site | Yes |
-| `data/resources.json` | What the site shows. Written by the sync script | No, it gets overwritten |
-| `data/curation.json` | Sections, topics, rows to skip, and per-resource details Notion doesn't have | Yes |
-| `scripts/sync-notion.mjs` | Pulls Notion into `data/resources.json` | |
 
-## Syncing from Notion
+## Updating the content
 
-### One-time setup
+1. Edit `data/catalogue.xlsx`. Its **Read Me** tab explains every column. The site uses the **Resources** and **Sections** tabs.
+2. Run the import. It needs Python 3 and openpyxl (`pip install openpyxl`):
 
-1. Go to https://www.notion.so/profile/integrations, create an **internal** integration and copy its secret.
-2. In Notion, open the **Resources** database, choose **•••** → **Connections**, and add the integration. Do the same for **Resource Categories**.
+   ```bash
+   python3 scripts/import_catalogue.py --dry-run
+   ```
 
-### Each sync
+   This checks the spreadsheet and reports what would change, without writing anything. If it looks right, run it again without `--dry-run`.
+3. Commit both `data/catalogue.xlsx` and `data/resources.json`.
 
-You need Node.js 18 or newer. There is nothing to install.
+The import stops without writing if a row is missing a required field (ID, Name, Section Key, Type, Topics, Description, URL), uses a section key that isn't on the Sections tab, uses an unknown topic, or has an invalid date. It warns about descriptions over 160 characters and events that have already ended. It also refuses to write if the library would shrink by more than half, which protects against importing the wrong file; pass `--force` if the drop is real.
 
-```bash
-NOTION_TOKEN=your_secret node scripts/sync-notion.mjs --dry-run
-```
+### What the site shows from each row
 
-This reports what would change without writing anything. If it looks right, run it again without `--dry-run`. Commit `data/resources.json` afterwards.
-
-### How Notion and curation.json combine
-
-- **Notion wins.** For any field filled in Notion (link, tags, category, dates, location, cost, description), the Notion value is used. Fixing something in Notion is enough.
-- **curation.json fills gaps.** When the Notion field is empty, the value in `curation.json` is used, matched by resource name. This holds the links, sections and topics added during the first import, plus the "kind" label (e.g. "Job board"), which Notion has no field for.
-- **New Notion rows** appear automatically if they have a Category. Tags map to topics; with no tags a row is filed under General.
-- **Sections** are matched by Notion category name using each section's `notion` list in `curation.json`. If your Notion category is named differently (say "Jobs" instead of "Job Boards"), add that name to the list.
-- **Skipped rows**: blank names, duplicate names (the first one wins), and anything listed in `exclude`.
-- **Dates**: the `Event Date` text is shown as written. If it's empty, the `Date` field is formatted instead. The end of `Date` decides when an event counts as past.
-- **Description**, or `AI summary` if Description is empty, shows under the resource name and is searchable.
-
-The script prints a warning for every row it couldn't place and for every `curation.json` entry with no matching Notion row (usually a renamed row). It refuses to write if the library would shrink by more than half. That usually means a database isn't shared with the integration; pass `--force` if the drop is real.
-
-### Tests
-
-```bash
-node --test scripts/sync-notion.test.mjs
-```
+- **Name** links to the **URL**.
+- Under the name: **Type**, then **Jurisdiction** (unless Global), the **Status** of laws, **Publisher**, **Level** (unless All) and **Cost**. Events show their dates and **Location** instead of jurisdiction.
+- **Description** appears below that, and **Topics** appear on the right.
+- Search covers name, type, description, publisher, jurisdiction, level, section, location and dates.
+- Events are hidden automatically once their **End Date** has passed. An event with no dates shows "Dates to be announced".
+- A **Status** of Inactive shows "No longer updated".
+- **Curator Notes**, **Origin**, **Format** and **Last Checked** are not shown. The newest Last Checked date appears in the header as "checked".
+- "United States" and "European Union" in Jurisdiction are shown as US and EU.

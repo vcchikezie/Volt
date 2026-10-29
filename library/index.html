@@ -21,6 +21,7 @@
   --t-c: #b9420f;
   --t-p: #0d7468;
   --t-a: #7136d6;
+  --t-l: #a3245f;
   --t-g: #5f6b80;
   --warn: #9a6400;
   --warn-soft: #fbf1dc;
@@ -32,7 +33,7 @@
   :root:not([data-theme="light"]) {
     --bg: #0e1120; --surface: #161a2e; --ink: #e8eaf3; --muted: #9ba2ba; --line: #282d46;
     --accent: #8f99ff; --accent-ink: #0e1120; --accent-soft: #202655;
-    --t-c: #fb923c; --t-p: #34d3bd; --t-a: #b196fb; --t-g: #97a3b6;
+    --t-c: #fb923c; --t-p: #34d3bd; --t-a: #b196fb; --t-l: #f47fb0; --t-g: #97a3b6;
     --warn: #f2c063; --warn-soft: #33290f;
     color-scheme: dark;
   }
@@ -40,7 +41,7 @@
 :root[data-theme="dark"] {
   --bg: #0e1120; --surface: #161a2e; --ink: #e8eaf3; --muted: #9ba2ba; --line: #282d46;
   --accent: #8f99ff; --accent-ink: #0e1120; --accent-soft: #202655;
-  --t-c: #fb923c; --t-p: #34d3bd; --t-a: #b196fb; --t-g: #97a3b6;
+  --t-c: #fb923c; --t-p: #34d3bd; --t-a: #b196fb; --t-l: #f47fb0; --t-g: #97a3b6;
   --warn: #f2c063; --warn-soft: #33290f;
   color-scheme: dark;
 }
@@ -98,7 +99,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .topic-btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
-.dot.c { background: var(--t-c); } .dot.p { background: var(--t-p); } .dot.a { background: var(--t-a); } .dot.g { background: var(--t-g); }
+.dot.c { background: var(--t-c); } .dot.p { background: var(--t-p); } .dot.a { background: var(--t-a); } .dot.l { background: var(--t-l); } .dot.g { background: var(--t-g); }
 
 /* Curator strip */
 .curator {
@@ -216,7 +217,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
     <div class="mast-top">
       <div class="brand">
         <h1>Volt <em>Library</em></h1>
-        <p>A curated index for people working where law meets technology: cybersecurity, data privacy and artificial intelligence. Courses, job boards, events, podcasts, research and tools in one place.</p>
+        <p>A curated index for people working where law meets technology: cybersecurity, data privacy and artificial intelligence. Laws, regulators, frameworks, certifications, courses, events, research, news, books, tools, communities and jobs in one place.</p>
         <div class="meta" id="meta"></div>
       </div>
       <div class="btn-row">
@@ -226,7 +227,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
     <div class="searchbar">
       <div class="search">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="q" type="search" placeholder="Search by name, type or place, e.g. job board, podcast, Las Vegas" aria-label="Search the library" autocomplete="off">
+        <input id="q" type="search" placeholder="Search by name, publisher or place, e.g. GDPR, NIST, CIPP, Nairobi" aria-label="Search the library" autocomplete="off">
       </div>
       <div class="topics" role="group" aria-label="Filter by topic" id="topics"></div>
     </div>
@@ -292,7 +293,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
     <div class="dlg-head">
       <div>
         <h2 id="rv-title">Suggestions to review</h2>
-        <p>Add the ones you want to the Notion library, then dismiss them here. Only you and editors see this list.</p>
+        <p>Add the ones you want to the catalogue spreadsheet, then dismiss them here. Only you and editors see this list.</p>
       </div>
       <button class="x" type="button" data-close aria-label="Close">×</button>
     </div>
@@ -301,8 +302,8 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 </dialog>
 
 <script>
-// Content lives in data/resources.json, generated from Notion by scripts/sync-notion.mjs.
-let SYNCED = "", TOPICS = {}, CATS = [], ITEMS = [], CAT_BY = {};
+// Content lives in data/resources.json, generated from data/catalogue.xlsx by scripts/import_catalogue.py.
+let UPDATED = "", TOPICS = {}, CATS = [], ITEMS = [], CAT_BY = {};
 const TODAY = new Date().toISOString().slice(0, 10);
 const isPast = it => !!(it.ev && it.ev.end && it.ev.end < TODAY);
 
@@ -313,13 +314,13 @@ const esc = s => String(s).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;
 function matches(it) {
   if (state.topic !== "all" && !it.t.includes(state.topic)) return false;
   if (!state.q) return true;
-  const hay = [it.n, it.k, it.d, CAT_BY[it.c].name, it.ev?.loc, it.ev?.when, ...it.t.map(x => TOPICS[x])].join(" ").toLowerCase();
+  const hay = [it.n, it.k, it.d, it.pub, it.jur, it.lvl, CAT_BY[it.c].name, it.ev?.loc, it.ev?.when, ...it.t.map(x => TOPICS[x])].join(" ").toLowerCase();
   return state.q.toLowerCase().split(/\s+/).filter(Boolean).every(w => hay.includes(w));
 }
 
 function renderMeta() {
   const linked = ITEMS.filter(i => i.u).length;
-  $("meta").textContent = `${ITEMS.length} resources · ${CATS.length} sections · synced ${new Date(SYNCED + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`;
+  $("meta").textContent = `${ITEMS.length} resources · ${CATS.length} sections · checked ${new Date(UPDATED + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`;
   $("legend").innerHTML = Object.entries(TOPICS).map(([k, v]) => `<span class="tag"><span class="dot ${k}"></span>${v}</span>`).join(" &nbsp; ");
   return linked;
 }
@@ -352,12 +353,17 @@ function rowHtml(it) {
   if (it.ev) {
     if (it.ev.when) sub.push(`<span>${esc(it.ev.when)}</span>`);
     if (it.ev.loc) sub.push(`<span>${esc(it.ev.loc)}</span>`);
-    if (it.ev.cost) sub.push(`<span>${esc(it.ev.cost)}</span>`);
-  }
+  } else if (it.jur && it.jur !== "Global") sub.push(`<span>${esc(it.jur)}</span>`);
+  if (it.c === "laws" && it.st) sub.push(`<span>${esc(it.st)}</span>`);
+  if (it.pub && it.pub !== it.n) sub.push(`<span>${esc(it.pub)}</span>`);
+  if (it.lvl && it.lvl !== "All") sub.push(`<span>${esc(it.lvl)}</span>`);
+  if (it.cost) sub.push(`<span>${esc(it.cost)}</span>`);
   const tags = it.t.map(t => `<span class="tag"><span class="dot ${t}"></span>${TOPICS[t]}</span>`);
   if (it.ev && isPast(it)) tags.unshift(`<span class="pill">Past</span>`);
-  if (it.ev && !it.ev.end) tags.unshift(`<span class="pill warn">Date not listed</span>`);
+  if (it.ev && !it.ev.end) tags.unshift(`<span class="pill warn">Dates to be announced</span>`);
+  if (it.st === "Inactive") tags.unshift(`<span class="pill">No longer updated</span>`);
   if (state.curator && !it.u) tags.unshift(`<span class="pill gap">No link</span>`);
+  if (state.curator && it.check) tags.unshift(`<span class="pill gap">Check link</span>`);
   return `<li class="row"><div class="row-main"><div class="row-title">${title}</div><div class="row-sub">${sub.join("")}</div>${it.d ? `<p class="row-desc">${esc(it.d)}</p>` : ""}</div><div class="row-tags">${tags.join("")}</div></li>`;
 }
 
@@ -392,11 +398,11 @@ function renderResults() {
 function renderCurator() {
   const box = $("curator");
   if (!state.curator) { box.hidden = true; return; }
-  const noLink = ITEMS.filter(i => !i.u).length;
+  const toCheck = ITEMS.filter(i => i.check).length;
   const undated = ITEMS.filter(i => i.ev && !i.ev.end).length;
   const n = state.queue.length;
   box.innerHTML = `<span><strong>Curator view.</strong> Only you and editors see this.</span>
-    <span>${noLink} entries have no link</span>
+    <span>${toCheck} links need a check</span>
     <span>${undated} events have no date</span>
     <button class="btn" type="button" id="open-review">Review suggestions (${n})</button>`;
   box.hidden = false;
@@ -537,13 +543,14 @@ async function load() {
     $("results").innerHTML = `<div class="empty"><h2>The library couldn't load</h2><p>The resource list didn't arrive. Reload the page to try again.</p></div>`;
     return;
   }
-  SYNCED = data.synced;
+  UPDATED = data.updated;
   TOPICS = data.topics;
   CATS = data.sections.map(s => ({ k: s.key, code: s.code, name: s.name, d: s.description }));
   CAT_BY = Object.fromEntries(CATS.map(c => [c.k, c]));
   ITEMS = data.resources.filter(r => CAT_BY[r.section]).map((r, i) => ({
     id: i, n: r.name, c: r.section, k: r.kind || "", t: r.topics?.length ? r.topics : ["g"], u: r.url || "", d: r.description || "",
-    ev: r.event ? { when: r.event.when, end: r.event.end, loc: r.event.location, cost: r.event.cost } : null
+    pub: r.publisher || "", jur: r.jurisdiction || "", lvl: r.level || "", cost: r.cost || "", st: r.status || "", check: !!r.needsCheck,
+    ev: r.event ? { when: r.event.when, end: r.event.end, loc: r.event.location } : null
   }));
   $("sg-cat").innerHTML = CATS.map(c => `<option value="${c.k}">${esc(c.name)}</option>`).join("");
   $("sg-topics").innerHTML = Object.entries(TOPICS).map(([k, v]) => `<label><input type="checkbox" id="sg-t-${k}" value="${k}"> ${v}</label>`).join("");
