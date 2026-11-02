@@ -44,7 +44,9 @@ The import stops without writing if a row is missing a required field (ID, Name,
 
 ### Thumbnails
 
-Tiles show an image taken from each resource's own website: its link-preview image (the picture sites provide for sharing), or failing that its largest icon. Resources without one keep the generated cover.
+Tiles show an editorial illustration drawn in code by `illustrations.js`: one scene per section, coloured and marked by the resource's first topic, varied per resource. Nothing needs to be generated or stored.
+
+The catalogue card can also show the publisher's own preview image (the picture sites provide for sharing). To collect those:
 
 ```bash
 python3 scripts/fetch_thumbnails.py

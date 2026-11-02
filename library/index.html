@@ -210,6 +210,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .thumb.has-img .thumb-mark, .thumb.has-img .thumb-kind, .thumb.has-img .thumb-top .stone { visibility: hidden; }
 .thumb.has-img .thumb-top, .thumb.has-img .bands { z-index: 1; }
 .thumb.has-img .thumb-top > span:first-child { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 4px 8px; }
+.thumb-chip { position: absolute; left: 10px; bottom: 10px; z-index: 1; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; font: 600 12px/16px var(--sans); letter-spacing: 0.02em; }
+.card-img.illus { aspect-ratio: 16 / 9; object-position: 50% 42%; }
 .card-img { width: 100%; aspect-ratio: 1200 / 630; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); }
 .tile-title { font: 500 16px/22px var(--sans); letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
 .tile-btn:hover .tile-title { text-decoration: underline; text-underline-offset: 3px; }
@@ -424,6 +426,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   </div>
 </dialog>
 
+<script src="illustrations.js"></script>
 <script>
 // Content lives in data/resources.json, generated from data/catalogue.xlsx by scripts/import_catalogue.py.
 let UPDATED = "", TOPICS = {}, CATS = [], ITEMS = [], CAT_BY = {};
@@ -503,6 +506,9 @@ function monogram(it) {
   return { text: it.n.replace(/^(The|A|An)\s+/i, "").charAt(0).toUpperCase(), letter: true };
 }
 
+// Drawn editorial illustration for a resource (illustrations.js); empty if that script failed to load.
+const illustration = it => (window.voltIllustration ? window.voltIllustration(it) : "");
+
 function tileHtml(it) {
   const [first, ...rest] = it.t;
   const m = monogram(it);
@@ -512,8 +518,9 @@ function tileHtml(it) {
   else { if (it.jur && it.jur !== "Global") sub.push(it.jur); if (it.pub && it.pub !== it.n) sub.push(it.pub); }
   const tags = [...pills(it), ...it.t.map(t => `<span class="tag"><span class="dot ${t}"></span>${TOPICS[t]}</span>`)];
   return `<li class="tile${isPast(it) ? " past" : ""}"><button type="button" class="tile-btn" data-item="${it.id}">
-    <span class="thumb ${first}${it.thumb ? " has-img" : ""}" style="--ms:${size}px" aria-hidden="true">
-      ${it.thumb ? `<img class="thumb-img${it.thumb.kind === "icon" ? " icon" : ""}" src="${esc(it.thumb.src)}" alt="" loading="lazy" decoding="async">` : ""}
+    <span class="thumb ${first} has-img" style="--ms:${size}px" aria-hidden="true">
+      <img class="thumb-img" src="${illustration(it)}" alt="" loading="lazy" decoding="async">
+      ${m.letter ? "" : `<span class="thumb-chip">${esc(m.text)}</span>`}
       <span class="thumb-top"><span>${esc(it.call)}</span><span class="stone"></span></span>
       <span class="thumb-mark${m.letter ? " letter" : ""}">${esc(m.text)}</span>
       <span class="thumb-kind">${esc(it.k)}</span>
@@ -626,7 +633,9 @@ function openCard(id) {
   $("card").innerHTML = `<article class="card">
     <div class="card-top"><span class="callno">${esc(it.call)}</span><span>${esc(c.name)}</span><button class="x" type="button" data-close aria-label="Close">×</button></div>
     <div class="card-body">
-      ${it.thumb?.kind === "photo" ? `<img class="card-img" src="${esc(it.thumb.src)}" alt="" loading="lazy" decoding="async">` : ""}
+      ${it.thumb?.kind === "photo"
+        ? `<img class="card-img" src="${esc(it.thumb.src)}" alt="" loading="lazy" decoding="async">`
+        : `<img class="card-img illus" src="${illustration(it)}" alt="" decoding="async">`}
       <h2 id="card-title">${esc(it.n)}</h2>
       ${p.length ? `<div class="btn-row">${p.join("")}</div>` : ""}
       ${it.d ? `<p class="desc">${esc(it.d)}</p>` : ""}
@@ -673,7 +682,7 @@ $("results").addEventListener("click", e => {
 document.addEventListener("error", e => {
   const img = e.target;
   if (!(img instanceof HTMLImageElement)) return;
-  if (img.classList.contains("thumb-img")) { img.closest(".thumb")?.classList.remove("has-img"); img.remove(); }
+  if (img.classList.contains("thumb-img")) { const t = img.closest(".thumb"); t?.classList.remove("has-img"); t?.querySelector(".thumb-chip")?.remove(); img.remove(); }
   else if (img.classList.contains("card-img")) img.remove();
 }, true);
 window.addEventListener("hashchange", () => setCat(location.hash.slice(1), false));
