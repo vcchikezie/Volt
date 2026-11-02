@@ -1,6 +1,6 @@
 # Volt Library
 
-A free, public, searchable directory of resources for people working where law meets technology: cybersecurity, data privacy and AI. Visitors browse and filter; anyone should be able to suggest a resource, and a curator reviews suggestions before they go live.
+Owned by Datavance Solutions LLC. A free, public, searchable directory of resources for people working where law meets technology: cybersecurity, data privacy and AI. Visitors browse and filter; anyone should be able to suggest a resource, and a curator reviews suggestions before they go live.
 
 ## Current state
 
@@ -29,6 +29,6 @@ A free, public, searchable directory of resources for people working where law m
 
 ## Design
 
-Volt LegalTech Lab identity: black #0A0A0A, white, red #E11D2E and blue #2563EB, with the short red-and-blue stripe as a recurring rule. Fonts: Newsreader (display), IBM Plex Sans (body), IBM Plex Mono (call numbers and labels). No logo on the site; the header is the plain site name. Light and dark themes via `prefers-color-scheme`.
+Volt Library belongs to Datavance Solutions LLC and follows the Datavance brand: black, white and green (`--brand`, currently #15803D in light mode and #4ADE80 in dark mode; swap in the official green when known), with a hexagon marker taken from the Datavance mark. The header and footer credit Datavance Solutions LLC. Fonts: Newsreader (display), IBM Plex Sans (body), IBM Plex Mono (call numbers and labels). No logo on the site; the header is the plain site name. Light and dark themes via `prefers-color-scheme`.
 
 The interface is a virtual library in a thumbnail view: each section shows its resources as tiles, each with a generated cover in its first topic's colour (Cybersecurity red, Privacy blue, AI dark grey, Tech Law black in light mode and white in dark mode, General light grey), a monogram (acronym or first letter), the call number (catalogue ID), and side bands for further topics; title, publisher and topics sit under the cover. Clicking a tile opens its catalogue card. The Thumbnails/List toggle keeps a dense list view for scanning; the choice is remembered per browser. (The owner asked for a thumbnail grid like coloradovirtuallibrary.org, so the earlier "avoid card grids" rule no longer applies.)

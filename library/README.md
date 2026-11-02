@@ -1,6 +1,6 @@
 # Volt Library
 
-This folder is the Volt Library website. All commands below run from inside `library/`.
+This folder is the Volt Library website, owned by Datavance Solutions LLC. All commands below run from inside `library/`.
 
 A searchable directory of resources on cybersecurity, data privacy, AI and tech law: laws, regulators, frameworks, certifications, courses, events, research, news, podcasts, books, tools, communities and jobs.
 

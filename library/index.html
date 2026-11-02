@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Layout: a virtual library. Each section shows its resources as thumbnail tiles: a generated cover in the topic colour
+/* Brand: Datavance Solutions LLC (black, white, green). Layout: a virtual library. Each section shows its resources as thumbnail tiles: a generated cover in the topic colour
    with a monogram and call number, then title, publisher and topics. A tile opens its catalogue card.
    A List view keeps the dense catalogue rows for scanning. */
 :root {
@@ -17,10 +17,10 @@
   --ink: #0a0a0a;
   --muted: #5b5b64;
   --line: #e1e1e6;
-  --red: #e11d2e;
-  --blue: #2563eb;
-  --link: #2563eb;
-  --accent-soft: #e5ecfd;
+  --brand: #15803d;
+  --brand-ink: #ffffff;
+  --link: #15803d;
+  --accent-soft: #e2f3e8;
   --t-c: #e11d2e;
   --t-p: #2563eb;
   --t-a: #52525b;
@@ -38,7 +38,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0a0a0a; --surface: #141416; --ink: #fafafa; --muted: #a1a1aa; --line: #27272c;
-    --link: #7ea3f7; --accent-soft: #15213f;
+    --brand: #4ade80; --brand-ink: #052e16; --link: #4ade80; --accent-soft: #0f2a1a;
     --t-a: #5b5b63; --t-l: #f4f4f5; --t-l-ink: #0a0a0a; --t-g: #a1a1aa; --t-g-ink: #0a0a0a;
     --warn: #f2c063; --warn-soft: #2e2410;
     --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px -12px rgba(0, 0, 0, 0.8);
@@ -47,7 +47,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0a0a0a; --surface: #141416; --ink: #fafafa; --muted: #a1a1aa; --line: #27272c;
-  --link: #7ea3f7; --accent-soft: #15213f;
+  --brand: #4ade80; --brand-ink: #052e16; --link: #4ade80; --accent-soft: #0f2a1a;
   --t-a: #5b5b63; --t-l: #f4f4f5; --t-l-ink: #0a0a0a; --t-g: #a1a1aa; --t-g-ink: #0a0a0a;
   --warn: #f2c063; --warn-soft: #2e2410;
   --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 10px 30px -12px rgba(0, 0, 0, 0.8);
@@ -66,25 +66,25 @@ body {
 }
 a { color: inherit; }
 button, input, select, textarea { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .mono { font-family: var(--mono); }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding-block: 24px 48px; display: grid; gap: 28px; }
 
-/* Brand stripe: the short red-and-blue rule from the identity */
-.stripe { display: inline-flex; gap: 0; width: 44px; height: 3px; }
-.stripe::before, .stripe::after { content: ""; flex: 1; }
-.stripe::before { background: var(--red); }
-.stripe::after { background: var(--blue); }
+/* Brand marks: a short green rule, and the hexagon from the Datavance mark */
+.stripe { display: block; width: 44px; height: 3px; background: var(--brand); }
+.hex { display: inline-block; width: 11px; height: 12px; flex: none; background: var(--brand); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
 
 /* Masthead */
 .mast { display: grid; gap: 22px; }
 .mast-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.site { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
 .site-name { font: 600 24px/1 var(--display); text-decoration: none; }
+.site-owner { font: 500 11px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
 .hero { display: grid; gap: 12px; }
 .hero h1 { margin: 0; font: 600 clamp(34px, 5.6vw, 58px)/1.04 var(--display); letter-spacing: -0.01em; text-wrap: balance; max-width: 18ch; }
-.hero h1 em { font-style: italic; font-weight: 500; color: var(--blue); }
+.hero h1 em { font-style: italic; font-weight: 500; color: var(--brand); }
 .hero p { margin: 0; max-width: 62ch; color: var(--muted); font-size: 16px; text-wrap: pretty; }
 .meta { font: 500 12px/1.4 var(--mono); color: var(--muted); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
 
@@ -94,7 +94,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-radius: 6px; padding: 9px 14px; cursor: pointer; font-weight: 700; font-size: 14px; text-decoration: none;
 }
 .btn:hover { border-color: var(--ink); }
-.btn.primary { background: var(--blue); color: #ffffff; border-color: var(--blue); }
+.btn.primary { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
 .btn.primary:hover { filter: brightness(1.1); }
 .btn.dark { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .btn.ghost { background: transparent; border-color: transparent; color: var(--link); padding-inline: 6px; font-weight: 500; }
@@ -108,7 +108,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 8px;
   padding: 13px 14px 13px 42px; font-size: 16px;
 }
-.search input:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+.search input:focus { border-color: var(--brand); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
 .controls { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; }
 
 .topics { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -160,12 +160,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .case-head h2 { margin: 0; font: 600 28px/1.1 var(--display); text-wrap: balance; }
 .case-head h2 button { all: unset; cursor: pointer; }
 .case-head h2 button:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
-.case-head h2 button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.case-head h2 button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .case-head p { margin: 0; color: var(--muted); max-width: 66ch; font-size: 14px; }
 
 .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); gap: 26px 18px; }
 .tile-btn { all: unset; box-sizing: border-box; display: grid; gap: 8px; align-content: start; width: 100%; cursor: pointer; }
-.tile-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 6px; }
+.tile-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; border-radius: 6px; }
 .thumb {
   --c: var(--t-g); --fg: #ffffff;
   position: relative; aspect-ratio: 4 / 3; max-width: 100%; overflow: hidden;
@@ -180,7 +180,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .thumb.l, .thumb.g { box-shadow: inset 0 0 0 1px var(--line); }
 .tile-btn:hover .thumb, .tile-btn:focus-visible .thumb { transform: translateY(-3px); box-shadow: var(--shadow); }
 .thumb-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: 600 10.5px/1 var(--mono); letter-spacing: 0.08em; opacity: 0.9; }
-.thumb-top .stripe { width: 28px; height: 2px; }
+.thumb-top .hex { width: 9px; height: 10px; background: currentColor; opacity: 0.7; }
 .thumb-mark { align-self: center; font: 600 var(--ms, 40px)/1 var(--display); letter-spacing: -0.01em; overflow-wrap: anywhere; min-height: 0; overflow: hidden; }
 .thumb-mark.letter { font-style: italic; font-weight: 500; }
 .thumb-kind { font: 600 10px/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 10px; }
@@ -205,7 +205,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .row-title { font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
 .row-title button { all: unset; cursor: pointer; }
 .row-title button:hover { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
-.row-title button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.row-title button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .row-sub { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--muted); }
 .kind { font: 600 11px/1.6 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; }
 .row-desc { margin: 4px 0 0; font-size: 14px; color: var(--ink); max-width: 68ch; }
@@ -309,7 +309,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 <div class="wrap">
   <header class="mast">
     <div class="mast-top">
-      <a class="site-name" href="#" data-home>Volt Library</a>
+      <div class="site"><a class="site-name" href="#" data-home>Volt Library</a><span class="site-owner">by Datavance Solutions LLC</span></div>
       <button class="btn dark" type="button" id="open-suggest">Suggest a resource</button>
     </div>
     <div class="hero">
@@ -345,6 +345,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
   <footer>
     <div class="legend" id="legend"></div>
     <p>Volt Library links to resources owned by their publishers. It does not control or endorse them, so check details such as dates and prices on the publisher's site.</p>
+    <p>Volt Library is published by Datavance Solutions LLC. © <span id="year">2026</span> Datavance Solutions LLC.</p>
   </footer>
 </div>
 
@@ -492,7 +493,7 @@ function tileHtml(it) {
   const tags = [...pills(it), ...it.t.map(t => `<span class="tag"><span class="dot ${t}"></span>${TOPICS[t]}</span>`)];
   return `<li class="tile${isPast(it) ? " past" : ""}"><button type="button" class="tile-btn" data-item="${it.id}">
     <span class="thumb ${first}" style="--ms:${size}px" aria-hidden="true">
-      <span class="thumb-top"><span>${esc(it.call)}</span><span class="stripe"></span></span>
+      <span class="thumb-top"><span>${esc(it.call)}</span><span class="hex"></span></span>
       <span class="thumb-mark${m.letter ? " letter" : ""}">${esc(m.text)}</span>
       <span class="thumb-kind">${esc(it.k)}</span>
       ${rest.length ? `<span class="bands">${rest.map(t => `<i class="${t}"></i>`).join("")}</span>` : ""}
@@ -557,7 +558,7 @@ function renderResults() {
       ? `<ul class="list">${shown.map(rowHtml).join("")}</ul>`
       : `<ul class="grid">${shown.map(tileHtml).join("")}</ul>`;
     parts.push(`<section class="case" id="sec-${c.k}">
-      <div class="case-head"><div class="callno"><span class="stripe" aria-hidden="true"></span>${c.code} · ${shown.length} ${shown.length === 1 ? "resource" : "resources"}</div><h2>${title}</h2><p>${esc(c.d)}</p></div>
+      <div class="case-head"><div class="callno"><span class="hex" aria-hidden="true"></span>${c.code} · ${shown.length} ${shown.length === 1 ? "resource" : "resources"}</div><h2>${title}</h2><p>${esc(c.d)}</p></div>
       ${pastNote}${books}
     </section>`);
   }
@@ -774,6 +775,7 @@ async function load() {
   $("sg-cat").innerHTML = CATS.map(c => `<option value="${c.k}">${esc(c.name)}</option>`).join("");
   $("sg-topics").innerHTML = Object.entries(TOPICS).map(([k, v]) => `<label><input type="checkbox" id="sg-t-${k}" value="${k}"> ${v}</label>`).join("");
   renderMeta();
+  $("year").textContent = new Date().getFullYear();
   state.cat = CAT_BY[location.hash.slice(1)] ? location.hash.slice(1) : "all";
   render();
   boot();
