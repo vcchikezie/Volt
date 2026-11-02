@@ -22,6 +22,7 @@ except ImportError:
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_XLSX = ROOT / "data" / "catalogue.xlsx"
 OUT = ROOT / "data" / "resources.json"
+THUMBS = ROOT / "data" / "thumbs" / "index.json"  # written by scripts/fetch_thumbnails.py
 
 TOPICS = {"c": "Cybersecurity", "p": "Privacy", "a": "AI", "l": "Tech Law", "g": "General"}
 TOPIC_CODE = {v: k for k, v in TOPICS.items()}
@@ -79,6 +80,7 @@ def build(xlsx):
         sections.append({"key": key, "code": text(r["Code"]), "name": text(r["Display Name"]), "description": text(r["Description"])})
     section_keys = {s["key"] for s in sections}
 
+    thumbs = json.loads(THUMBS.read_text()) if THUMBS.exists() else {}
     resources, ids, names, checked = [], set(), set(), []
     for n, r in rows(wb["Resources"]):
         where = f"Resources row {n} ({text(r.get('ID')) or text(r.get('Name')) or 'no name'})"
@@ -153,6 +155,8 @@ def build(xlsx):
             item["needsCheck"] = True
         if isinstance(r.get("Last Checked"), (datetime, date)):
             checked.append(iso(r["Last Checked"]))
+        if rid in thumbs and (ROOT / thumbs[rid]["file"]).exists():
+            item["thumb"] = {"src": thumbs[rid]["file"], "kind": thumbs[rid]["kind"]}
 
         resources.append(prune(item))
 

@@ -25,6 +25,7 @@ Then open http://localhost:8000.
 | `data/catalogue.xlsx` | The catalogue. Source of truth for everything the site shows | Yes |
 | `data/resources.json` | What the site reads. Generated from the spreadsheet | No, it gets overwritten |
 | `scripts/import_catalogue.py` | Turns the spreadsheet into `resources.json` | |
+| `scripts/fetch_thumbnails.py` | Saves a thumbnail image for each resource into `data/thumbs/` | |
 | `index.html` | The site | Yes |
 
 ## Updating the content
@@ -40,6 +41,18 @@ Then open http://localhost:8000.
 3. Commit both `data/catalogue.xlsx` and `data/resources.json`.
 
 The import stops without writing if a row is missing a required field (ID, Name, Section Key, Type, Topics, Description, URL), uses a section key that isn't on the Sections tab, uses an unknown topic, or has an invalid date. It warns about descriptions over 160 characters and events that have already ended. It also refuses to write if the library would shrink by more than half, which protects against importing the wrong file; pass `--force` if the drop is real.
+
+### Thumbnails
+
+Tiles show an image taken from each resource's own website: its link-preview image (the picture sites provide for sharing), or failing that its largest icon. Resources without one keep the generated cover.
+
+```bash
+python3 scripts/fetch_thumbnails.py
+```
+
+It needs normal internet access, so run it on your own computer. Pillow is optional (`pip install Pillow`) and shrinks images to 640px wide. It only fetches thumbnails that are missing; use `--refresh` to fetch all again, or `--only LAW-001 CRT-004` for particular resources. Images go to `data/thumbs/` and are linked from `data/resources.json` straight away, and later imports keep them. Commit `data/thumbs/` and `data/resources.json`.
+
+The images belong to the sites they come from and are used as link previews, the way social networks and chat apps show them.
 
 ### What the site shows from each row
 

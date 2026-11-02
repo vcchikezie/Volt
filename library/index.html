@@ -37,6 +37,8 @@
   --t-a: #9a9a9e; --t-a-ink: #000000;  /* AI: stone gray */
   --t-l: #e5e5ea; --t-l-ink: #000000;  /* Tech Law: kaya silver */
   --t-g: #ffffff; --t-g-ink: #000000;  /* General: shiro */
+  /* topic dots, the owner's colours */
+  --d-c: #e11d2e; --d-p: #2563eb; --d-a: #52525b; --d-l: #000000; --d-g: #d4d4d8;
   --display: "Newsreader", "Iowan Old Style", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -44,14 +46,14 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #000000; --surface: #141414; --paper: #141414; --ink: #ffffff; --muted: #b4b4b9; --line: #2a2a2a; --ring: #6e6e73;
-    --sente: #ffffff; --on-sente: #000000; --caution-ring: transparent; --scrim: rgba(0, 0, 0, 0.7);
+    --sente: #ffffff; --on-sente: #000000; --caution-ring: transparent; --d-a: #5b5b63; --d-l: #ffffff; --d-g: #a1a1aa; --scrim: rgba(0, 0, 0, 0.7);
     --shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 12px 32px -14px rgba(0, 0, 0, 0.9);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #000000; --surface: #141414; --paper: #141414; --ink: #ffffff; --muted: #b4b4b9; --line: #2a2a2a; --ring: #6e6e73;
-  --sente: #ffffff; --on-sente: #000000; --caution-ring: transparent; --scrim: rgba(0, 0, 0, 0.7);
+  --sente: #ffffff; --on-sente: #000000; --caution-ring: transparent; --d-a: #5b5b63; --d-l: #ffffff; --d-g: #a1a1aa; --scrim: rgba(0, 0, 0, 0.7);
   --shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 12px 32px -14px rgba(0, 0, 0, 0.9);
   color-scheme: dark;
 }
@@ -123,9 +125,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .topic-btn:hover { border-color: var(--ink); }
 .topic-btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .topic-btn .meta { color: inherit; opacity: 0.7; }
-/* Topic stones: the cover grey, ringed so the white stone shows on white */
-.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--ink)); box-shadow: inset 0 0 0 1px var(--ring); flex: none; }
-.dot.c { --c: var(--t-c); } .dot.p { --c: var(--t-p); } .dot.a { --c: var(--t-a); } .dot.l { --c: var(--t-l); } .dot.g { --c: var(--t-g); }
+/* Topic dots in the owner's topic colours; the light ones take a ring */
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--d, var(--ink)); flex: none; }
+.dot.c { --d: var(--d-c); } .dot.p { --d: var(--d-p); } .dot.a { --d: var(--d-a); } .dot.l { --d: var(--d-l); } .dot.g { --d: var(--d-g); }
+.dot.l, .dot.g { box-shadow: inset 0 0 0 1px var(--ring); }
 
 .views { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
 .views button { border: 0; background: transparent; padding: 4px 14px; border-radius: 999px; cursor: pointer; color: var(--muted); font: 500 12px/20px var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
@@ -200,6 +203,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .thumb .bands i { background: var(--c); }
 .thumb .bands i.c { --c: var(--t-c); } .thumb .bands i.p { --c: var(--t-p); } .thumb .bands i.a { --c: var(--t-a); }
 .thumb .bands i.l { --c: var(--t-l); } .thumb .bands i.g { --c: var(--t-g); }
+/* A fetched image replaces the generated cover; the call number stays as a chip */
+.thumb-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.thumb-img.icon { object-fit: contain; padding: 16% 30%; background: var(--paper); }
+.thumb.has-img { background: var(--paper); }
+.thumb.has-img .thumb-mark, .thumb.has-img .thumb-kind, .thumb.has-img .thumb-top .stone { visibility: hidden; }
+.thumb.has-img .thumb-top, .thumb.has-img .bands { z-index: 1; }
+.thumb.has-img .thumb-top > span:first-child { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 4px 8px; }
+.card-img { width: 100%; aspect-ratio: 1200 / 630; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); }
 .tile-title { font: 500 16px/22px var(--sans); letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
 .tile-btn:hover .tile-title { text-decoration: underline; text-underline-offset: 3px; }
 .tile-sub { font: 400 13px/18px var(--sans); color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -319,7 +330,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 <div class="wrap">
   <header class="mast">
     <div class="mast-top">
-      <div class="site"><a class="site-name" href="#" data-home>Volt Library</a><span class="site-owner">by Datavance Solutions LLC</span></div>
+      <div class="site"><a class="site-name" href="#" data-home>Volt</a><span class="site-owner">by Datavance Solutions LLC</span></div>
       <button class="btn sente" type="button" id="open-suggest">Suggest a resource</button>
     </div>
     <div class="hero">
@@ -353,8 +364,8 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 
   <footer>
     <div class="legend" id="legend"></div>
-    <p>Volt Library links to resources owned by their publishers. It does not control or endorse them, so check details such as dates and prices on the publisher's site.</p>
-    <p>Volt Library is published by Datavance Solutions LLC. © <span id="year">2026</span> Datavance Solutions LLC.</p>
+    <p>Volt links to resources owned by their publishers. It does not control or endorse them, so check details such as dates and prices on the publisher's site.</p>
+    <p>Volt is published by Datavance Solutions LLC. © <span id="year">2026</span> Datavance Solutions LLC.</p>
   </footer>
 </div>
 
@@ -501,7 +512,8 @@ function tileHtml(it) {
   else { if (it.jur && it.jur !== "Global") sub.push(it.jur); if (it.pub && it.pub !== it.n) sub.push(it.pub); }
   const tags = [...pills(it), ...it.t.map(t => `<span class="tag"><span class="dot ${t}"></span>${TOPICS[t]}</span>`)];
   return `<li class="tile${isPast(it) ? " past" : ""}"><button type="button" class="tile-btn" data-item="${it.id}">
-    <span class="thumb ${first}" style="--ms:${size}px" aria-hidden="true">
+    <span class="thumb ${first}${it.thumb ? " has-img" : ""}" style="--ms:${size}px" aria-hidden="true">
+      ${it.thumb ? `<img class="thumb-img${it.thumb.kind === "icon" ? " icon" : ""}" src="${esc(it.thumb.src)}" alt="" loading="lazy" decoding="async">` : ""}
       <span class="thumb-top"><span>${esc(it.call)}</span><span class="stone"></span></span>
       <span class="thumb-mark${m.letter ? " letter" : ""}">${esc(m.text)}</span>
       <span class="thumb-kind">${esc(it.k)}</span>
@@ -614,6 +626,7 @@ function openCard(id) {
   $("card").innerHTML = `<article class="card">
     <div class="card-top"><span class="callno">${esc(it.call)}</span><span>${esc(c.name)}</span><button class="x" type="button" data-close aria-label="Close">×</button></div>
     <div class="card-body">
+      ${it.thumb?.kind === "photo" ? `<img class="card-img" src="${esc(it.thumb.src)}" alt="" loading="lazy" decoding="async">` : ""}
       <h2 id="card-title">${esc(it.n)}</h2>
       ${p.length ? `<div class="btn-row">${p.join("")}</div>` : ""}
       ${it.d ? `<p class="desc">${esc(it.d)}</p>` : ""}
@@ -657,6 +670,12 @@ $("results").addEventListener("click", e => {
   else if (e.target.closest("[data-clear]")) { state.q = ""; state.topic = "all"; $("q").value = ""; setCat("all", true); }
   else if (e.target.closest("[data-suggest]")) openSuggest();
 });
+document.addEventListener("error", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement)) return;
+  if (img.classList.contains("thumb-img")) { img.closest(".thumb")?.classList.remove("has-img"); img.remove(); }
+  else if (img.classList.contains("card-img")) img.remove();
+}, true);
 window.addEventListener("hashchange", () => setCat(location.hash.slice(1), false));
 document.querySelectorAll("dialog").forEach(d => d.addEventListener("click", e => { if (e.target.closest("[data-close]") || e.target === d) d.close(); }));
 
@@ -778,7 +797,7 @@ async function load() {
   ITEMS = data.resources.filter(r => CAT_BY[r.section]).map((r, i) => ({
     id: i, call: r.id || "", n: r.name, c: r.section, k: r.kind || "", t: r.topics?.length ? r.topics : ["g"], u: r.url || "", d: r.description || "",
     pub: r.publisher || "", jur: r.jurisdiction || "", lvl: r.level || "", cost: r.cost || "", fmt: r.format || "", st: r.status || "",
-    applies: r.applies || "", check: !!r.needsCheck, abbr: initials(r.name),
+    applies: r.applies || "", check: !!r.needsCheck, thumb: r.thumb || null, abbr: initials(r.name),
     ev: r.event ? { when: r.event.when, end: r.event.end, loc: r.event.location } : null
   }));
   $("sg-cat").innerHTML = CATS.map(c => `<option value="${c.k}">${esc(c.name)}</option>`).join("");
